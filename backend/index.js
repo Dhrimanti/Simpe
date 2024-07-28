@@ -1,5 +1,6 @@
 const express= require('express');
 const todo = require('./db');
+const { createTodo, updateTodo }=require("./types")
 
 
 const app=express();
@@ -12,9 +13,11 @@ app.post('/', async function(req, res){
     if(!parsedPayload.success){
         return res.status(400).json({msg: "Invalid payload"})
     }
+    console.log(parsedPayload)
     await todo.create({
-        title: parsedPayload.title,
-        description:createdPayload.description,
+        title: createPayLoad.title,
+        description:createPayLoad.description,
+        completed:false
         
         
     })
@@ -30,8 +33,29 @@ app.get('/', async function(req, res){
 })
 
 
-app.put('/completed',function(req, res){
-    const updateTodo=req.body;
+app.put('/completed',async function(req, res){
+    const updatePayload=req.body;
+    const parsedPayload=updateTodo.safeParse(updatePayload);
+    console.log(updatePayload.title)
+    if(!parsedPayload.success){
+        res.status(411).json({
+            msg:"You send wrong inputs"
+        });return 
+    }
+    
+    await todo.updateOne({
+        title:req.body.title
+        
+    },{
+        completed:true
+    })
+    res.json("Todo updated")
+ })
+
+ app.get('/completed',async function(req, res){
+    const todos=await todo.find({});
+    console.log(todos);
+    res.json(todos);
  })
 
 app.listen(3000, function(req, res, next) {

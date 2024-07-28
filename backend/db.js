@@ -1,11 +1,5 @@
 const mongoose=require('mongoose');
-
-
-
-
-
-
-
+mongoose.connect("mongodb+srv://dhritimancg:badmos@cluster0.qnkkxjb.mongodb.net/badmos")
 
 const todoSchema=mongoose.Schema({
     title:String,
@@ -14,6 +8,6 @@ const todoSchema=mongoose.Schema({
 
 })
 
-const todo=mongoose.model('Todo',todoSchema)
+const todo=mongoose.model('todos',todoSchema)
 
 module.exports=todo;
