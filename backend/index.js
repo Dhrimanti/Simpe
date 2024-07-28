@@ -2,10 +2,11 @@ const express= require('express');
 const todo = require('./db');
 const { createTodo, updateTodo }=require("./types")
 
-
+const cors=require("cors");
 const app=express();
 
 app.use(express.json())
+app.use(cors())
 
 app.post('/', async function(req, res){
     const createPayLoad=req.body;
@@ -26,10 +27,17 @@ app.post('/', async function(req, res){
 
 
 app.get('/', async function(req, res){
-    const todos=todo.find({});
-    res.json(todos);
+    const todos=await todo.find({});
+    
+    res.send(todos)
+    
+    
 
     
+})
+
+app.get("/badmos",function(req, res){
+    res.send("Mai badmos chora ")
 })
 
 
